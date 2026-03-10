@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 450px;
+            text-align: center;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        #linkList {
+            text-align: left;
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            background-color: white;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1  >URL Shortener</h1>
+        <input type="text" id="longUrl" placeholder="Paste long URL here">
+        <button onclick="shortenUrl()">Shorten</button>
+        <div id="result" style="margin-top: 15px;"></div>
+
+        <div id= "linkList" >
+            <h3>Stored Links</h3>
+            <button onclick="loadLinks()" style="background-color: #6c757d;">Refresh List</button>
+            <ul id="listUl"></ul>
+        </div>
+    </div>
+
+    <script>
+        async function shortenUrl() {
+            const urlInput = document.getElementById('longUrl').value;
+            const response = await fetch('/shorten', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: urlInput })
+            });
+            const data = await response.json();
+            const shortLink = window.location.origin + '/' + data.shortCode;
+            document.getElementById('result').innerHTML = `Short Link: <a href="${shortLink}" target="_blank">${shortLink}</a>`;
+            loadLinks(); // Refresh list automatically after shortening
+        }
+
+        async function loadLinks() {
+            const response = await fetch('/list');
+            const data = await response.json();
+            const ul = document.getElementById('listUl');
+            ul.innerHTML = ""; // Clear current list
+
+            for (const [code, url] of Object.entries(data)) {
+                const fullShort = window.location.origin + '/' + code;
+                ul.innerHTML += `<li><strong>${code}</strong>: <a href="${fullShort}" target="_blank">${url}</a></li>`;
+            }
+        }
+
+        window.onload = loadLinks;
+    </script>
+</body>
+</html>
