@@ -4,7 +4,7 @@ I am currently a 19-year-old computer science student at Elgin community college
 *Basic REST API design (POST, GET, and Redirects).
 *JavaScript for the frontend UI.
 
-besides AI I received additional help from my brother(a fellow software engineer) to help clarify and provide a deeper understanding about APIs and frontend development(IE: Javascript).
+besides AI I received additional help from my brother(a fellow software engineer) to help clarify and provide a deeper understanding about APIs and frontend development(IE: Javascript/HTML).
 
 
 #Description:
@@ -14,7 +14,7 @@ This is a full-stack URL Shortener The application allows users to submit long U
 #Setup/Run instructions:
 *Backend: C++17 (Visual Studio 2022).
 *Web Framework: Crow C++.
-*Frontend: JavaScript.
+*Frontend: JavaScript/HTML.
 
 1. Prerequisites
 *Visual Studio 2022 with the "Desktop development with C++" workload installed.
